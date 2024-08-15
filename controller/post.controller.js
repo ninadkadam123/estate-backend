@@ -22,17 +22,20 @@ export const getPost = async (req, res) => {
 };
 export const addPost = async (req, res) => {
   const body = req.body;
+
   const tokenId = req.userId;
   try {
-    const newPost = prisma.post.create({
+    const newPost = await prisma.post.create({
       data: {
         ...body.postData,
         userId: tokenId,
-        postDetails: {
-          create: body.postDetails,
+
+        postDetail: {
+          create: body.postDetail,
         },
       },
     });
+
     res.status(200).json(newPost);
   } catch (error) {
     console.log(error);
