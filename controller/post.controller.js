@@ -11,9 +11,22 @@ export const getPosts = async (req, res) => {
 };
 
 export const getPost = async (req, res) => {
-  const id = req.param.id;
+  const id = req.params.id;
+
   try {
-    const post = prisma.post.findUnique({ where: { id } });
+    const post = await prisma.post.findUnique({
+      where: { id },
+      include: {
+        postDetail: true,
+        user: {
+          select: {
+            username: true,
+            avatar: true,
+          },
+        },
+      },
+    });
+
     res.status(200).json(post);
   } catch (error) {
     console.log(error);
