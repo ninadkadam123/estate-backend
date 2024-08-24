@@ -1,8 +1,22 @@
+import jwt from 'jsonwebtoken';
 import prisma from '../lib/prisma.js';
 
 export const getPosts = async (req, res) => {
+  const query = req.query;
+
   try {
-    const posts = await prisma.post.findMany();
+    const posts = await prisma.post.findMany({
+      where: {
+        city: query.city || undefined,
+        type: query.type || undefined,
+        property: query.property || undefined,
+        bedroom: parseInt(query.bedroom) || undefined,
+        price: {
+          gte: parseInt(query.minPrice) || undefined,
+          lte: parseInt(query.maxPrice) || undefined,
+        },
+      },
+    });
     res.status(200).json(posts);
   } catch (error) {
     console.log(error);
@@ -27,7 +41,33 @@ export const getPost = async (req, res) => {
       },
     });
 
-    res.status(200).json(post);
+    let userId;
+    const token = req.cookies?.token;
+    // console.log(`token ${!token}`);
+    if (token) {
+      jwt.verify(
+        token,
+        process.env.JWT_SECRET_KEY,
+        async (err, payload) => {
+          if (!err) {
+            console.log(`payload ${payload}`);
+            userId = payload.id;
+            const savedPost = await prisma.savedPost.findUnique({
+              where: {
+                userId_postId: {
+                  userId,
+                  postId: id,
+                },
+              },
+            });
+            return res
+              .status(200)
+              .json({ ...post, isSaved: saved ? true : false });
+          }
+        }
+      );
+    }
+    return res.status(200).json({ ...post, isSaved: false });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Failed to get post!!!' });
