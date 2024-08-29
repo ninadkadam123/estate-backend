@@ -50,7 +50,6 @@ export const getPost = async (req, res) => {
         process.env.JWT_SECRET_KEY,
         async (err, payload) => {
           if (!err) {
-            console.log(`payload ${payload}`);
             userId = payload.id;
             const savedPost = await prisma.savedPost.findUnique({
               where: {
