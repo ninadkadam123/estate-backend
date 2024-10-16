@@ -27,7 +27,7 @@ const app = express();
 // );
 
 const corsOptions = {
-  origin: 'https://merry-boba-46bfa2.netlify.app/',
+  origin: 'https://merry-boba-46bfa2.netlify.app',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true, // Allow cookies to be sent with requests
   optionsSuccessStatus: 200,
