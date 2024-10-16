@@ -8,6 +8,7 @@ import userRouter from './routes/user.route.js';
 import chatRouter from './routes/chat.route.js';
 import messageRouter from './routes/mesage.route.js';
 import { verifyToken } from './middleware/verifyToken.js';
+const app = express();
 
 // const allowedOrigins = [process.env.CLIENT_URL];
 // app.use(
@@ -26,14 +27,13 @@ import { verifyToken } from './middleware/verifyToken.js';
 // );
 
 const corsOptions = {
-  origin: process.env.CLIENT_URL,
+  origin: 'https://merry-boba-46bfa2.netlify.app/',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true, // Allow cookies to be sent with requests
   optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
-const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
