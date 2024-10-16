@@ -8,7 +8,6 @@ import userRouter from './routes/user.route.js';
 import chatRouter from './routes/chat.route.js';
 import messageRouter from './routes/mesage.route.js';
 import { verifyToken } from './middleware/verifyToken.js';
-const app = express();
 
 // const allowedOrigins = [process.env.CLIENT_URL];
 // app.use(
@@ -34,6 +33,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
