@@ -33,9 +33,24 @@ const app = express();
 //   optionsSuccessStatus: 200,
 // };
 
+app.use((req, res, next) => {
+  res.header(
+    'Access-Control-Allow-Origin',
+    'https://merry-boba-46bfa2.netlify.app'
+  );
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  );
+  res.header(
+    'Access-Control-Allow-Methods',
+    'GET, POST, PUT, DELETE, OPTIONS'
+  );
+  next();
+});
 //app.use(cors(corsOptions));
 // app.options('*', cors(corsOptions));
-app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
+//app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
